@@ -3,6 +3,7 @@ import edu.illinois.cs.cogcomp.core.datastructures.textannotation.{Constituent, 
 import edu.illinois.cs.cogcomp.edison.features.factory.{ParseHeadWordPOS, SubcategorizationFrame}
 import edu.illinois.cs.cogcomp.saul.datamodel.DataModel
 import edu.illinois.cs.cogcomp.saulexamples.nlp.CommonSensors._
+import SpRLSensors._
 
 /** Created by taher on 7/28/16.
   */

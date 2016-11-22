@@ -1,10 +1,12 @@
 import java.util.Properties
-
 import edu.illinois.cs.cogcomp.core.datastructures.textannotation._
 import edu.illinois.cs.cogcomp.nlp.common.PipelineConfigurator._
 import edu.illinois.cs.cogcomp.saulexamples.nlp.SpatialRoleLabeling.SpRL2013.SpRL2013Document
 import edu.illinois.cs.cogcomp.saulexamples.nlp.SpatialRoleLabeling.{SpRLAnnotation, SpRLDataReader}
 import edu.illinois.cs.cogcomp.saulexamples.nlp.TextAnnotationFactory
+import scala.collection.JavaConverters._
+import scala.collection.mutable.ListBuffer
+
 
 /** Created by taher on 7/28/16.
   */
@@ -15,7 +17,7 @@ object PopulateSpRLDataModel {
 
     def readSpRLDocuments(): List[Sentence] = {
       val path = if (isTrain)
-        "data/IAPR TC-12/gold"
+        "data/SpRL/TextData"
       else  "data/IAPR TC-12/train"
 
 

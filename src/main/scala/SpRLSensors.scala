@@ -2,6 +2,8 @@ import edu.illinois.cs.cogcomp.core.datastructures.textannotation.Constituent
 import edu.illinois.cs.cogcomp.edison.features.factory.WordFeatureExtractorFactory
 import edu.illinois.cs.cogcomp.edison.features.{FeatureExtractor, FeatureUtilities}
 
+import scala.collection.JavaConversions._
+
 /** Created by taher on 7/28/16.
   */
 object SpRLSensors {

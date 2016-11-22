@@ -1,1 +1,22 @@
 # Created by .ignore support plugin (hsz.mobi)
+.DS_Store
+data
+*/data
+*/twitter
+.idea
+/RUNNING_PID
+*/logs/
+/project/*-shim.sbt
+/project/project/
+*/target/
+target/
+/models
+.projectFilesBackup
+*.class
+annotation-cache/
+/config
+*.lc
+*.lex
+*~
+*/*.swp
+*.swp

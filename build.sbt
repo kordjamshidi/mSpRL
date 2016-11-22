@@ -2,7 +2,7 @@ name := "mSpRL"
 
 version := "1.0"
 
-scalaVersion := "2.12.0"
+scalaVersion := "2.11.7"
 
 resolvers += "CogcompSoftware" at "http://cogcomp.cs.illinois.edu/m2repo/"
 
