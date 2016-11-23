@@ -1,19 +1,17 @@
-import edu.illinois.cs.cogcomp.core.datastructures.ViewNames
+
+import SpRLSensors._
 import edu.illinois.cs.cogcomp.core.datastructures.textannotation.{Constituent, Sentence}
-import edu.illinois.cs.cogcomp.edison.features.factory.{ParseHeadWordPOS, SubcategorizationFrame}
 import edu.illinois.cs.cogcomp.saul.datamodel.DataModel
 import edu.illinois.cs.cogcomp.saulexamples.nlp.CommonSensors._
-import SpRLSensors._
 
 /** Created by taher on 7/28/16.
   */
 object SpRLDataModel extends DataModel {
+
   val sentences = node[Sentence]
   val tokens = node[Constituent]
 
   val sentencesToTokens = edge(sentences, tokens)
-
-  val parseView = ViewNames.PARSE_STANFORD
 
   sentencesToTokens.addSensor(sentenceToTokens _)
 
@@ -30,17 +28,19 @@ object SpRLDataModel extends DataModel {
 
   // features
   val posTag = property(tokens) {
-    x: Constituent => getPOS(x)
+    x: Constituent => getPosTag(x)
   }
 
   val lemma = property(tokens) {
-    x: Constituent => SpRLSensors.getLemma(x)
+    x: Constituent => getLemma(x)
   }
+
   val subcategorization = property(tokens) {
-    x: Constituent => fexFeatureExtractor(x, new SubcategorizationFrame(parseView))
+    x: Constituent =>  Subcategorization(x)
   }
+
   val headword = property(tokens) {
-    x: Constituent => fexFeatureExtractor(x, new ParseHeadWordPOS(parseView))
+    x: Constituent => HeadwordPOS(x)
   }
 
 }
