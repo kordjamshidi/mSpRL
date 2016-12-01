@@ -10,18 +10,19 @@ Each type has a way to get an address.
 Each type is associated with a number of sensors that provide the properties about that type.
 Each type has a way to establish edges between other types in that domain.
 We need to have a way to build join nodes which can abstract and domain independent.
-We think we need to implement an NLP specific `type hierarchy`, and we start with having two types in this hierarchy:
+We think we need to implement an NLP specific `type hierarchy`, and we start with having three types in this hierarchy:
 
+- Documents
 - Sentences
 - Tokens
 
 We ideally should indicate the edge and there shouldn't be a need to specify a sensor on the edge.
-We should be able to have a list of black box sensors that give us properties of Sentence nodes and Token nodes.
+We should be able to have a list of black box sensors that give us properties of Sentence nodes and Token nodes, etc.
 That is all!
 
 ##XML Reader
 
-Most of the NLP annotations are printed in XML files. we try to start from the Saul DataReader and see if we can have an XML
+Most of the NLP annotations are printed in XML files. we try to start from the SaulXMLReader and see if we can have an XML
 annotation READER as generic as possible.
 
 Let review it by an example:
@@ -43,7 +44,7 @@ We need as in input to the program a mapping between our NLP `type hierarchy` an
 We might even tell the users `if you have annotations at all at the sentence level put them in SENTENCE tag` or ask them to write a
 mapping between their terminology and our type hierarchy.
 
-1) we have a predefined type hierarchy, for now including sentence and token.
+1) we have a predefined type hierarchy, for now including document, sentence and token.
 2) we define every type in Saul (even if it is just having one textAnnotation variable). For now we need to implement two class or case classes called Senetnece and Token. (edited)
 3) For now we use textAnnotation to provide us the property and edge sensors.
 4) we try to think of how our join node will look like.
@@ -53,7 +54,11 @@ mapping between their terminology and our type hierarchy.
 =================================================================================
 # A suggestion
 
-PK: We do not need this whole section, these information go into our NLP base classes.
+```diff
++PK1: We do not need this whole section, these information go into our NLP base classes.
++PK2: We need them if we want to read the whole XML file in one parse and put all the data in memory data structures. Later we do not need to
+go to the XML for retrieving information. Do we want this?
+```
 
 We can declare the xml schema by two classes: `RelationAnnotation` and `NodeAnnotation`
 
@@ -66,7 +71,7 @@ class NodeAnnotation{
     String startPropertyName = "start";
     String endPropertyName = "end";
     List<AnnotationProperty> properties;
-    List<NodeAnnotaion> children;
+    List<NodeAnnotation> children;
 }
 class RelationAnnotation{
     String IdentifierName= "Id";
@@ -84,7 +89,13 @@ class AnnotationIdentifier{
 }
 ```
 
-PK: The reader should have a node reader specific for each NLP base class.
+```diff
++PK1: The reader should have a node reader specific for each NLP base class.
++PK2: Again do we read everything at once or will we be back to parse the xml for what we need later?
+Should we read everything in only two types NlpNode and NlpJoinNode, or we read things based on our NLP hierarchy?
+The answer to this question will come from the type of the sensors that later we apply on each type.
+And I think the type hierarchy is more expressive.
+```
 Then we can define a reader to read the specified schema from the xml files:
 
 ```java
