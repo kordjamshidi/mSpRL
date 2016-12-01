@@ -56,8 +56,8 @@ mapping between their terminology and our type hierarchy.
 
 ```diff
 +PK1: We do not need this whole section, these information go into our NLP base classes.
-+PK2: We need them if we want to read the whole XML file in one parse and put all the data in memory data structures. Later we do not need to
-go to the XML for retrieving information. Do we want this?
++PK2: We need them if we want to read the whole XML file in one parse and put all the data in memory data structures.
++Later we do not need to go to the XML for retrieving information. Do we want this?
 ```
 
 We can declare the xml schema by two classes: `RelationAnnotation` and `NodeAnnotation`
@@ -92,11 +92,20 @@ class AnnotationIdentifier{
 ```diff
 +PK1: The reader should have a node reader specific for each NLP base class.
 +PK2: Again do we read everything at once or will we be back to parse the xml for what we need later?
-Should we read everything in only two types NlpNode and NlpJoinNode, or we read things based on our NLP hierarchy?
-The answer to this question will come from the type of the sensors that later we apply on each type.
-And I think the type hierarchy is more expressive.
++Should we read everything in only two types NlpNode and NlpJoinNode, or we read things based on our NLP hierarchy?
++The answer to this question will come from the sensors that later we apply on each type.
++I think the type hierarchy is more expressive.
 ```
+-----
+
 Then we can define a reader to read the specified schema from the xml files:
+
+```diff
++This is again depending on the above mentioned choices can be reading everything at once,
++or reading a specific tag into a base class, or into a property of a base class.
++We can indicate a tag, a base class and every thing related to that tag will be a new object or a property of a
++existing object.
+```
 
 ```java
 class XmlDataReader{
@@ -108,7 +117,21 @@ class XmlDataReader{
     NlpNode getAncestor(NlpNode node, String ancestorTagName);
 }
 ```
-PK: We do not need this we already have nodes and join nodes in Saul data model, we can extend their fields if needed
+
+```diff
++List<Sentence> getSentenceNodes(String tagname)
++List<JoinNodes?> getJoinNodel(String tagName)
+```
+
+--------
+
+```diff
++PK: We do not need this we already have nodes and join nodes in Saul data model, we can extend their fields if needed
++PK2: In case we do not read the whole thing at once in the memory we would not need two level data structures and one
++level of base classes will be sufficient. The reader directly reads data in there when needed and those will be used
++to populate the data model.
+```
+
 Finally we can have two type of nodes in our model:
 
 ```java
@@ -125,12 +148,12 @@ class  NlpJoinNode{
     List<NlpNode> Nodes;
 }
 ```
+
 How we associate those to the `TextAnnotation`? well using a provider class:
 
 ```java
-class NlpAnnotationProvider{
+    class NlpAnnotationProvider{
     private Map<NlpNode, TextAnnotation> map;
-
     List<NlpNode> getTokens(NlpNode sentence);
     String getPos(NlpNode sentence, NlpNode token);
     String getLemma(NlpNode sentence, NlpNode token);
@@ -138,6 +161,11 @@ class NlpAnnotationProvider{
 }
 ```
 
+```diff
+or maybe
+via datamodel edges?  like
+ getlemma(token, token~>tokenTosentence)
+```
 # an example
 suppose we have this schema :
 ```xml
@@ -153,15 +181,14 @@ suppose we have this schema :
 </scene>
 ```
 we must declare the schema:
+
 ```java
-NodeAnnotation scene = new NodeAnnotation("scene");
-scene.properties.add(new AnnotationProperty("url", SupportedTypes.String));
-
-NodeAnnotation sentence = new NodeAnnotation("sentence", "scene");//parent name is scene
-scene.children.add(sentence);
-
-NodeAnnotation tr = new NodeAnnotation("tr", "sentence");
-sentence.children.add(tr);
+   NodeAnnotation scene = new NodeAnnotation("scene");
+   scene.properties.add(new AnnotationProperty("url", SupportedTypes.String));
+   NodeAnnotation sentence = new NodeAnnotation("sentence", "scene");//parent name is scene
+   scene.children.add(sentence);
+   NodeAnnotation tr = new NodeAnnotation("tr", "sentence");
+   sentence.children.add(tr);
 // I think you get the idea
 ```
 
