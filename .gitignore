@@ -1,11 +1,8 @@
 .DS_Store
-.idea/*
-*/.idea
 data
 */data
 */twitter
 .idea
-.idea/*.*
 /RUNNING_PID
 */logs/
 /project/*-shim.sbt
