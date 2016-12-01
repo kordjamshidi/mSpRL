@@ -162,9 +162,8 @@ How we associate those to the `TextAnnotation`? well using a provider class:
 ```
 
 ```diff
-or maybe
-via datamodel edges?  like
- getlemma(token, token~>tokenTosentence)
++or maybe +via datamodel edges?  like
++getlemma(token, token~>tokenTosentence)
 ```
 # an example
 suppose we have this schema :
