@@ -297,8 +297,6 @@ object myDataModel extends DataModel with NLP {
 
 }```
 
-// PK: something like above though there are still missing information and it is not well connected; to be modified
-
 I think we need to have a design for three aspects of each NLP base class.
  - Base class itself
  - Data model node specification
@@ -411,6 +409,12 @@ We can read those from the XML file by,
 ```scala
 SaulXMLReader.getTokenTag("NameUsedInXML")
 ```
+SaulXMLReader.getTokenProperty("NameUsedInXML")
+
+##Problem
+we read trajector tokens (tokens wit the value trajector as a property) from the XML file and we use sentence tokenizer
+to get the tokens for a sentence. Now we need to unify them. We can start with the exact span match and simply remove
+the redundant tokens.
 
 
 
